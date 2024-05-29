@@ -43,17 +43,27 @@ class GraphColoring:
         return None, None
     
     def validate(self):
+        to_append = []
         for i, ii in self.adjacency_list.items():
             for j in ii:
                 if not (j in self.adjacency_list):
-                    self.adjacency_list[j] = []
+                    to_append.append(j) 
                     print(f"Whoops, {j} didn't exist..")
+                    continue
                 if not (i in self.adjacency_list[j]):
                     self.adjacency_list[j].append(i) 
                     print(f"Whoops, {i} didn't exist in {j}..")
+        for i in to_append:
+            self.adjacency_list[i] = [] 
+        if len(to_append) > 0:
+            for i, ii in self.adjacency_list.items():
+                for j in ii:
+                    if not (i in self.adjacency_list[j]):
+                        self.adjacency_list[j].append(i) 
+                        print(f"Whoops, {i} didn't exist in {j}..")
                     
 
-# Example adjacency list for 15 administrative units in Spain
+
 adjacency_list = {
     'Madrid': ['Castile and Leon', 'Castile-La Mancha', 'Extremadura'],
     'Catalonia': ['Aragon', 'Valencia'],
@@ -69,7 +79,8 @@ adjacency_list = {
     'Navarre': ['Aragon'],
     'Basque Country': ['Navarre'],
     'Cantabria': ['Asturias'],
-    'La Rioja': ['Aragon', 'Castile and Leon']
+    'La Rioja': ['Aragon', 'Castile and Leon'],
+    'aaa': ['bbb', 'ccc']
 }
 
 gc = GraphColoring(adjacency_list)
